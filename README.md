@@ -10,18 +10,18 @@ import "github.com/brandenc40/hackernews"
 // Grab the item ids of all top stories
 topStories, err := hackernews.GetStories(hackernews.StoriesTop)
 if err != nil {
-    panic(err)
+    // handle error
 }
 
 // Hydrate that list of item ids into a list of Item structs
 hydratedStories, err := hackernews.HydrateItems(topStories)
 if err != nil {
-    panic(err)
+    // handle error
 }
 
 // Get the user who posted the top story
 user, err := hackernews.GetUser(hydratedStories[0].By)
 if err != nil {
-    panic(err)
+    // handle error
 }
 ```
