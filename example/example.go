@@ -19,7 +19,7 @@ func main() {
 		panic(err)
 	}
 
-	// Get the user posted the top story
+	// Get the user who posted the top story
 	user, err := hackernews.GetUser(hydratedStories[0].By)
 	if err != nil {
 		panic(err)

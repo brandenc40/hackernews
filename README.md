@@ -5,6 +5,8 @@
 ### Basic Example
 
 ```go
+import "github.com/brandenc40/hackernews"
+
 // Grab the item ids of all top stories
 topStories, err := hackernews.GetStories(hackernews.StoriesTop)
 if err != nil {
@@ -17,7 +19,7 @@ if err != nil {
     panic(err)
 }
 
-// Get the user posted the top story
+// Get the user who posted the top story
 user, err := hackernews.GetUser(hydratedStories[0].By)
 if err != nil {
     panic(err)
