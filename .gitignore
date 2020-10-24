@@ -34,3 +34,4 @@ _testmain.go
 .DS_Store
 .idea
 .vscode
+coverage.txt
