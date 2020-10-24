@@ -1,6 +1,6 @@
 .PHONY: test
 test:
-	@go test -coverprofile tmp/cp.out
+	@go test -race -covermode=atomic -coverprofile tmp/cp.out
 
 .PHONY: show-covg
 show-covg:
