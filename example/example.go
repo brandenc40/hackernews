@@ -19,5 +19,11 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Println(hydratedStories)
+	// Get the user posted the top story
+	user, err := hackernews.GetUser(hydratedStories[0].By)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(user)
 }
