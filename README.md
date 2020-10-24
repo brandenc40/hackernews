@@ -4,8 +4,6 @@
 
 #### Easy to use gateway for the HackerNews API that leverages goroutines for highly efficient requests.
 
-#### Basic Example
-
 ```go
 import "github.com/brandenc40/hackernews"
 
