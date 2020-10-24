@@ -1,8 +1,10 @@
 # HackerNews Gateway
 
-### Easy to use gateway for the HackerNews API that leverages goroutines for highly efficient requests.
+[![codecov](https://codecov.io/gh/brandenc40/hackernews/branch/master/graph/badge.svg?token=YDCD39G1C1)](undefined)
 
-### Basic Example
+#### Easy to use gateway for the HackerNews API that leverages goroutines for highly efficient requests.
+
+#### Basic Example
 
 ```go
 import "github.com/brandenc40/hackernews"
