@@ -19,9 +19,20 @@ if err != nil {
     // handle error
 }
 
+topStory := hydratedStories[0]
+
 // Get the user who posted the top story
-user, err := hackernews.GetUser(hydratedStories[0].By)
+user, err := hackernews.GetUser(topStory.By)
 if err != nil {
     // handle error
+}
+
+// Use the Type arg to know what kind of item it is.
+// In this example we are using GetItem to grab a Poll.
+if topStory.Type == "poll" {
+    poll, err := hackernews.GetItem(topStory.Poll)
+    if err != nil {
+        // handle error
+    }
 }
 ```
