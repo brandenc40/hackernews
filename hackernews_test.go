@@ -127,3 +127,24 @@ func TestHydrateItems(t *testing.T) {
 		})
 	}
 }
+
+func TestGetMaxItem(t *testing.T) {
+	tests := []struct {
+		name    string
+		wantErr bool
+	}{
+		{
+			name:    "No Error",
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			_, err := GetMaxItem()
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GetMaxItem() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+		})
+	}
+}

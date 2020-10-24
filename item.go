@@ -18,3 +18,6 @@ type Item struct {
 	Parts       []int  `json:"parts,omitempty"`
 	Descendants int    `json:"descendants,omitempty"`
 }
+
+// MaxItem -
+type MaxItem int
