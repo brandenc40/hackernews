@@ -1,4 +1,4 @@
-# HackerNews Gateway
+# HackerNews API
 
 [![codecov](https://codecov.io/gh/brandenc40/hackernews/branch/master/graph/badge.svg?token=YDCD39G1C1)](undefined)
 
