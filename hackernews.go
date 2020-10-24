@@ -13,21 +13,15 @@ import (
 
 const (
 	// HackerNews API URL
-	urlScheme   = "https"
-	urlHost     = "hacker-news.firebaseio.com"
-	urlBasePath = "v0"
+	urlScheme  = "https"
+	urlHost    = "hacker-news.firebaseio.com"
+	apiVersion = "v0"
 
 	// HackerNews API paths
-	itemPath        = "item"
-	maxItemPath     = "maxitem"
-	userPath        = "user"
-	updatesPath     = "updates"
-	topStoriesPath  = "topstories"
-	bestStoriesPath = "beststories"
-	newStoriesPath  = "newstories"
-	askStoriesPath  = "askstories"
-	showStoriesPath = "showstories"
-	jobStoriesPath  = "jobstories"
+	itemPath    = "item"
+	maxItemPath = "maxitem"
+	userPath    = "user"
+	updatesPath = "updates"
 )
 
 // HydrateItems - Hydrates a list of item ids in concurrently
@@ -136,129 +130,25 @@ func GetUpates() (Updates, error) {
 	return updates, nil
 }
 
-// GetTopStories -
-func GetTopStories() (TopStories, error) {
-	var topStories TopStories
+// GetStories -
+func GetStories(storyType StoryType) (Stories, error) {
+	var stories Stories
 
 	// Build url
-	url := buildRequestURL(topStoriesPath)
+	url := buildRequestURL(storyType.Path())
 
 	// Call endpoint
 	response, err := get(url)
 	if err != nil {
-		return topStories, err
+		return stories, err
 	}
 
 	// Unmarshal to output type
-	err = json.Unmarshal(response, &topStories)
+	err = json.Unmarshal(response, &stories)
 	if err != nil {
-		return topStories, err
+		return stories, err
 	}
-	return topStories, nil
-}
-
-// GetNewStories -
-func GetNewStories() (NewStories, error) {
-	var newStories NewStories
-
-	// Build url
-	url := buildRequestURL(newStoriesPath)
-
-	// Call endpoint
-	response, err := get(url)
-	if err != nil {
-		return newStories, err
-	}
-
-	// Unmarshal to output type
-	err = json.Unmarshal(response, &newStories)
-	if err != nil {
-		return newStories, err
-	}
-	return newStories, nil
-}
-
-// GetBestStories -
-func GetBestStories() (BestStories, error) {
-	var bestStories BestStories
-
-	// Build url
-	url := buildRequestURL(bestStoriesPath)
-
-	// Call endpoint
-	response, err := get(url)
-	if err != nil {
-		return bestStories, err
-	}
-
-	// Unmarshal to output type
-	err = json.Unmarshal(response, &bestStories)
-	if err != nil {
-		return bestStories, err
-	}
-	return bestStories, nil
-}
-
-// GetAskStories -
-func GetAskStories() (AskStories, error) {
-	var askStories AskStories
-	// Build url
-	url := buildRequestURL(askStoriesPath)
-
-	// Call endpoint
-	response, err := get(url)
-	if err != nil {
-		return askStories, err
-	}
-
-	// Unmarshal to output type
-	err = json.Unmarshal(response, &askStories)
-	if err != nil {
-		return askStories, err
-	}
-	return askStories, nil
-}
-
-// GetShowStories -
-func GetShowStories() (ShowStories, error) {
-	var showStories ShowStories
-
-	// Build url
-	url := buildRequestURL(showStoriesPath)
-
-	// Call endpoint
-	response, err := get(url)
-	if err != nil {
-		return showStories, err
-	}
-
-	// Unmarshal to output type
-	err = json.Unmarshal(response, &showStories)
-	if err != nil {
-		return showStories, err
-	}
-	return showStories, nil
-}
-
-// GetJobStories -
-func GetJobStories() (JobStories, error) {
-	var jobStories JobStories
-
-	// Build url
-	url := buildRequestURL(jobStoriesPath)
-
-	// Call endpoint
-	response, err := get(url)
-	if err != nil {
-		return jobStories, err
-	}
-
-	// Unmarshal to output type
-	err = json.Unmarshal(response, &jobStories)
-	if err != nil {
-		return jobStories, err
-	}
-	return jobStories, nil
+	return stories, nil
 }
 
 func get(url string) ([]byte, error) {
@@ -278,7 +168,7 @@ func get(url string) ([]byte, error) {
 }
 
 func buildRequestURL(paths ...string) string {
-	finalPaths := []string{urlBasePath}
+	finalPaths := []string{apiVersion}
 	for _, path := range paths {
 		finalPaths = append(finalPaths, path)
 	}

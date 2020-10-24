@@ -81,27 +81,6 @@ func TestGetUser(t *testing.T) {
 	}
 }
 
-func TestGetTopStories(t *testing.T) {
-	tests := []struct {
-		name    string
-		wantErr bool
-	}{
-		{
-			name:    "No error",
-			wantErr: false,
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			_, err := GetTopStories()
-			if (err != nil) != tt.wantErr {
-				t.Errorf("GetTopStories() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-		})
-	}
-}
-
 func TestHydrateItems(t *testing.T) {
 	type args struct {
 		itemIDs []int
@@ -143,6 +122,78 @@ func TestGetMaxItem(t *testing.T) {
 			_, err := GetMaxItem()
 			if (err != nil) != tt.wantErr {
 				t.Errorf("GetMaxItem() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+		})
+	}
+}
+
+func TestGetUpates(t *testing.T) {
+	tests := []struct {
+		name    string
+		wantErr bool
+	}{
+		{
+			name:    "No Error",
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			_, err := GetUpates()
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GetUpates() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+		})
+	}
+}
+
+func TestGetStories(t *testing.T) {
+	type args struct {
+		storyType StoryType
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			name:    "No Error",
+			args:    args{storyType: StoriesTop},
+			wantErr: false,
+		},
+		{
+			name:    "No Error",
+			args:    args{storyType: StoriesNew},
+			wantErr: false,
+		},
+		{
+			name:    "No Error",
+			args:    args{storyType: StoriesBest},
+			wantErr: false,
+		},
+		{
+			name:    "No Error",
+			args:    args{storyType: StoriesAsk},
+			wantErr: false,
+		},
+		{
+			name:    "No Error",
+			args:    args{storyType: StoriesShow},
+			wantErr: false,
+		},
+		{
+			name:    "No Error",
+			args:    args{storyType: StoriesJob},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			_, err := GetStories(tt.args.storyType)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GetStories() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 		})

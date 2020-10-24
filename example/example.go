@@ -8,7 +8,7 @@ import (
 
 func main() {
 	// Grab the item ids of all top stories
-	topStories, err := hackernews.GetTopStories()
+	topStories, err := hackernews.GetStories(hackernews.StoriesTop)
 	if err != nil {
 		panic(err)
 	}
