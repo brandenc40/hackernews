@@ -5,3 +5,7 @@ test:
 .PHONY: show-covg
 show-covg:
 	@go tool cover -html=cp.out    
+
+.PHONY: escape-analysis
+escape-analysis:
+	@go build -gcflags="-m -l"
