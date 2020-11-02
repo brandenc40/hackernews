@@ -24,7 +24,12 @@ const (
 	updatesPath = "updates"
 )
 
-// HydrateItems - Hydrates a list of item ids in concurrently
+// HydrateItems concurrently hydrates a list of item ids.
+// GetStores and children of items are returned as purely
+// a list of item ids. With this list we need to pass each item
+// id into GetItem in order to get the full details. This HydrateItems
+// method will fetch that list of item ids concurrently to greatly
+// improve execution time.
 func HydrateItems(itemIDs []int) ([]Item, error) {
 	var g errgroup.Group
 
@@ -46,7 +51,12 @@ func HydrateItems(itemIDs []int) ([]Item, error) {
 	return items, nil
 }
 
-// GetItem -
+// GetItem - Get a single item and return as an Item struct. Items can be
+// on of "job", "story", "comment", "poll", or "pollopt". They're identified
+// by their ids, which are unique integers.
+//
+// API DOC: https://github.com/HackerNews/API#items
+//
 func GetItem(itemID int) (Item, error) {
 	var item Item
 
@@ -67,7 +77,11 @@ func GetItem(itemID int) (Item, error) {
 	return item, nil
 }
 
-// GetUser -
+// GetUser - Get a single user and return as a User struct.
+// Users are identified by case-sensitive ids.
+//
+// API DOC: https://github.com/HackerNews/API#users
+//
 func GetUser(userID string) (User, error) {
 	var user User
 
@@ -88,7 +102,41 @@ func GetUser(userID string) (User, error) {
 	return user, nil
 }
 
-// GetMaxItem -
+// GetStories - Get a list of all story ids of the type passed through
+// the storyType argument. StoryType is one of the following.
+// 		StoriesTop
+// 		StoriesNew
+// 		StoriesBest
+// 		StoriesAsk
+// 		StoriesShow
+// 		StoriesJob
+//
+// API DOC: https://github.com/HackerNews/API#new-top-and-best-stories
+//
+func GetStories(storyType StoryType) (Stories, error) {
+	var stories Stories
+
+	// Build url
+	url := buildRequestURL(storyType.Path())
+
+	// Call endpoint
+	response, err := get(url)
+	if err != nil {
+		return stories, err
+	}
+
+	// Unmarshal to output type
+	err = json.Unmarshal(response, &stories)
+	if err != nil {
+		return stories, err
+	}
+	return stories, nil
+}
+
+// GetMaxItem - The current largest item id
+//
+// API DOC: https://github.com/HackerNews/API#max-item-id
+//
 func GetMaxItem() (MaxItem, error) {
 	var maxItem MaxItem
 
@@ -109,7 +157,10 @@ func GetMaxItem() (MaxItem, error) {
 	return maxItem, nil
 }
 
-// GetUpates -
+// GetUpates - Item and profile changes
+//
+// API DOC: https://github.com/HackerNews/API#changed-items-and-profiles
+//
 func GetUpates() (Updates, error) {
 	var updates Updates
 
@@ -128,27 +179,6 @@ func GetUpates() (Updates, error) {
 		return updates, err
 	}
 	return updates, nil
-}
-
-// GetStories -
-func GetStories(storyType StoryType) (Stories, error) {
-	var stories Stories
-
-	// Build url
-	url := buildRequestURL(storyType.Path())
-
-	// Call endpoint
-	response, err := get(url)
-	if err != nil {
-		return stories, err
-	}
-
-	// Unmarshal to output type
-	err = json.Unmarshal(response, &stories)
-	if err != nil {
-		return stories, err
-	}
-	return stories, nil
 }
 
 func get(url string) ([]byte, error) {
