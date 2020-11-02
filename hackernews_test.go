@@ -1,33 +1,8 @@
 package hackernews
 
 import (
-	"reflect"
 	"testing"
 )
-
-func TestBuildRequestURL(t *testing.T) {
-	type args struct {
-		paths []string
-	}
-	tests := []struct {
-		name string
-		args args
-		want string
-	}{
-		{
-			name: "Works properly",
-			args: args{paths: []string{"user", "123"}},
-			want: "https://hacker-news.firebaseio.com/v0/user/123.json",
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := buildRequestURL(tt.args.paths...); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("BuildRequestURL() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
 
 func TestGetItem(t *testing.T) {
 	type args struct {
