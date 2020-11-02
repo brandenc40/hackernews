@@ -1,6 +1,6 @@
 package hackernews
 
-// Stories -
+// Stories response struct
 type Stories []int
 
 // StoryType - Enum value for types of stories available
