@@ -1,43 +1,29 @@
 name: golangci-lint
-
 on:
   push:
-    branches: [ master ]
+    tags:
+      - v*
+    branches:
+      - master
+      - main
   pull_request:
-    branches: [ master ]
-
 jobs:
-
-  build:
-    name: Build
+  golangci:
+    name: lint
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v2
+        with:
+          # Required: the version of golangci-lint is required and must be specified without patch version: we always use the latest patch version.
+          version: v1.29
 
-    - name: Set up Go 1.x
-      uses: actions/setup-go@v2
-      with:
-        go-version: ^1.13
+          # Optional: working directory, useful for monorepos
+          # working-directory: somedir
 
-    - name: Check out code into the Go module directory
-      uses: actions/checkout@v2
+          # Optional: golangci-lint command line arguments.
+          args: --skip-dirs example/ -E maligned
 
-    - name: Get dependencies
-      run: |
-        go get -v -t -d ./...
-        if [ -f Gopkg.toml ]; then
-            curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-            dep ensure
-        fi
-
-    - name: Build
-      run: go build -v .
-
-    - name: Test
-      run: go test -v .
-      
-    - name: Run golangci-lint
-      # You may pin to the exact commit or the version.
-      # uses: golangci/golangci-lint-action@04eca2038305127fb1e6683425b6864cd5612f2d
-      uses: golangci/golangci-lint-action@v2
-      with:
-        version: v1.32
+          # Optional: show only new issues if it's a pull request. The default value is `false`.
+          # only-new-issues: true
