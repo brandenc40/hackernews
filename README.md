@@ -1,6 +1,7 @@
 # HackerNews API
 
 [![codecov](https://codecov.io/gh/brandenc40/hackernews/branch/master/graph/badge.svg?token=YDCD39G1C1)](undefined)
+![Go](https://github.com/brandenc40/hackernews/workflows/Go/badge.svg)
 
 ### Easy to use client for the HackerNews API that leverages goroutines for highly efficient requests.
 
