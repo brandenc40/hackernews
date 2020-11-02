@@ -188,6 +188,11 @@ func TestGetStories(t *testing.T) {
 			args:    args{storyType: StoriesJob},
 			wantErr: false,
 		},
+		{
+			name:    "No Error",
+			args:    args{storyType: 6},
+			wantErr: true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

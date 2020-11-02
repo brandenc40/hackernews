@@ -2,22 +2,14 @@ package hackernews
 
 import (
 	"encoding/json"
-	"io/ioutil"
-	"net/http"
-	"net/url"
-	"path"
 	"strconv"
 
 	"golang.org/x/sync/errgroup"
 )
 
 const (
-	// HackerNews API URL
-	urlScheme  = "https"
-	urlHost    = "hacker-news.firebaseio.com"
-	apiVersion = "v0"
-
-	// HackerNews API paths
+	// HackerNews API paths. Story paths
+	// can be found in the stories.go file.
 	itemPath    = "item"
 	maxItemPath = "maxitem"
 	userPath    = "user"
@@ -103,15 +95,19 @@ func GetUser(userID string) (User, error) {
 }
 
 // GetStories - Get a list of all story ids of the type passed through
-// the storyType argument. StoryType is one of the following.
-// 		StoriesTop
-// 		StoriesNew
-// 		StoriesBest
-// 		StoriesAsk
-// 		StoriesShow
-// 		StoriesJob
+// the storyType argument.
 //
-// API DOC: https://github.com/HackerNews/API#new-top-and-best-stories
+// StoryType can be one of the following:
+//     - StoriesTop
+//     - StoriesNew
+//     - StoriesBest
+//     - StoriesAsk
+//     - StoriesShow
+//     - StoriesJob
+//
+// API DOCS:
+//     - https://github.com/HackerNews/API#new-top-and-best-stories
+//     - https://github.com/HackerNews/API#ask-show-and-job-stories
 //
 func GetStories(storyType StoryType) (Stories, error) {
 	var stories Stories
@@ -179,33 +175,4 @@ func GetUpates() (Updates, error) {
 		return updates, err
 	}
 	return updates, nil
-}
-
-func get(url string) ([]byte, error) {
-	// Call endpoint
-	resp, err := http.Get(url)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-
-	// Extract response body
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
-	return body, nil
-}
-
-func buildRequestURL(paths ...string) string {
-	finalPaths := []string{apiVersion}
-	for _, path := range paths {
-		finalPaths = append(finalPaths, path)
-	}
-	url := url.URL{
-		Scheme: urlScheme,
-		Host:   urlHost,
-		Path:   path.Join(finalPaths...),
-	}
-	return url.String() + ".json"
 }
