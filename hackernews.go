@@ -10,10 +10,10 @@ import (
 const (
 	// HackerNews API paths. Story paths
 	// can be found in the stories.go file.
-	itemPath    = "item.json"
-	maxItemPath = "maxitem.json"
-	userPath    = "user.json"
-	updatesPath = "updates.json"
+	itemPath    = "item"
+	maxItemPath = "maxitem"
+	userPath    = "user"
+	updatesPath = "updates"
 )
 
 // HydrateItems concurrently hydrates a list of item ids into
