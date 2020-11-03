@@ -4,6 +4,7 @@
 [![codecov](https://codecov.io/gh/brandenc40/hackernews/branch/master/graph/badge.svg?token=YDCD39G1C1)](undefined)
 ![Tests](https://github.com/brandenc40/hackernews/workflows/Tests/badge.svg)
 ![CodeQL](https://github.com/brandenc40/hackernews/workflows/CodeQL/badge.svg)
+![golangci-lint](https://github.com/brandenc40/hackernews/workflows/golangci-lint/badge.svg)
 [![Go Report Card](https://goreportcard.com/badge/github.com/brandenc40/hackernews)](https://goreportcard.com/report/github.com/brandenc40/hackernews)
 
 ### Easy to use client for the HackerNews API that leverages goroutines for highly efficient requests.
