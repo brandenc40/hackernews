@@ -1,6 +1,6 @@
 package hackernews
 
-// User response struct
+// User - GetUser() response struct
 type User struct {
 	ID        string `json:"id"`
 	Delay     int    `json:"delay"`

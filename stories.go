@@ -1,6 +1,6 @@
 package hackernews
 
-// Stories response struct
+// Stories - GetStories() response struct. An array of item ids.
 type Stories []int
 
 // StoryType - Enum value for types of stories available
@@ -34,7 +34,8 @@ func (s StoryType) String() string {
 	return ""
 }
 
-// Path -
+// Path returned the hackernews API path
+// for the given StoryType
 func (s StoryType) Path() string {
 	return s.String() + "stories"
 }

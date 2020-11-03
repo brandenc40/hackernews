@@ -1,6 +1,6 @@
 package hackernews
 
-// Item response struct
+// Item - GetItem() response struct.
 type Item struct {
 	ID          int    `json:"id,omitempty"`
 	Deleted     string `json:"deleted,omitempty"`
@@ -19,5 +19,5 @@ type Item struct {
 	Descendants int    `json:"descendants,omitempty"`
 }
 
-// MaxItem response struct
+// MaxItem response struct. A single item ID.
 type MaxItem int

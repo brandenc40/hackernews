@@ -10,15 +10,15 @@ import (
 const (
 	// HackerNews API paths. Story paths
 	// can be found in the stories.go file.
-	itemPath    = "item"
-	maxItemPath = "maxitem"
-	userPath    = "user"
-	updatesPath = "updates"
+	itemPath    = "item.json"
+	maxItemPath = "maxitem.json"
+	userPath    = "user.json"
+	updatesPath = "updates.json"
 )
 
-// HydrateItems concurrently hydrates a list of item ids.
-// GetStores and children of items are returned as purely
-// a list of item ids. With this list we need to pass each item
+// HydrateItems concurrently hydrates a list of item ids into
+// Item structs. GetStores and children of items are returned as
+// purely a list of item ids. With this list we need to pass each item
 // id into GetItem in order to get the full details. This HydrateItems
 // method will fetch that list of item ids concurrently to greatly
 // improve execution time.
@@ -98,16 +98,16 @@ func GetUser(userID string) (User, error) {
 // the storyType argument.
 //
 // StoryType can be one of the following:
-//     - StoriesTop
-//     - StoriesNew
-//     - StoriesBest
-//     - StoriesAsk
-//     - StoriesShow
-//     - StoriesJob
+//   - StoriesTop
+//   - StoriesNew
+//   - StoriesBest
+//   - StoriesAsk
+//   - StoriesShow
+//   - StoriesJob
 //
 // API DOCS:
-//     - https://github.com/HackerNews/API#new-top-and-best-stories
-//     - https://github.com/HackerNews/API#ask-show-and-job-stories
+//   - https://github.com/HackerNews/API#new-top-and-best-stories
+//   - https://github.com/HackerNews/API#ask-show-and-job-stories
 //
 func GetStories(storyType StoryType) (Stories, error) {
 	var stories Stories
@@ -129,7 +129,7 @@ func GetStories(storyType StoryType) (Stories, error) {
 	return stories, nil
 }
 
-// GetMaxItem - The current largest item id
+// GetMaxItem - The current largest item id.
 //
 // API DOC: https://github.com/HackerNews/API#max-item-id
 //
@@ -153,7 +153,7 @@ func GetMaxItem() (MaxItem, error) {
 	return maxItem, nil
 }
 
-// GetUpates - Item and profile changes
+// GetUpates - Item and profile changes.
 //
 // API DOC: https://github.com/HackerNews/API#changed-items-and-profiles
 //

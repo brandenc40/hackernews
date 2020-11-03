@@ -9,3 +9,7 @@ show-covg: test
 .PHONY: escape-analysis
 escape-analysis:
 	@go build -gcflags="-m -l"
+
+.PHONY: maligned
+maligned:
+	@golangci-lint run --disable-all -E maligned item.go
