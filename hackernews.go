@@ -21,14 +21,21 @@ const (
 // results that can be accessed.
 type PaginatedStoriesResponse struct {
 	Stories      []Item
-	PageSize     int
+	Limit        int
 	PageNumber   int
 	TotalResults int
 }
 
+// HasNextpage checks to see if there are more pages that
+// can be returned. This will return false if requesting
+// the next incremental page number will return 0 items.
+func (p *PaginatedStoriesResponse) HasNextpage() bool {
+	return p.PageNumber*p.Limit < p.TotalResults
+}
+
 // GetPaginatedStories returns paginated responses of fully hydrated story Items. If the page requested is larger than
 // the available data, the results will contain an empty slice of story Items.
-func GetPaginatedStories(storyType StoryType, storiesPerPage int, pageNumber int) (PaginatedStoriesResponse, error) {
+func GetPaginatedStories(storyType StoryType, limit int, pageNumber int) (PaginatedStoriesResponse, error) {
 	// 1. Get a slice of all story IDs
 	stories, err := GetStories(storyType)
 	if err != nil {
@@ -36,20 +43,20 @@ func GetPaginatedStories(storyType StoryType, storiesPerPage int, pageNumber int
 	}
 	nStories := len(stories)
 	// 2. Calculate the index start and end positions for the page requested
-	indexStart := (pageNumber - 1) * storiesPerPage
-	indexEnd := indexStart + storiesPerPage
+	indexStart := (pageNumber - 1) * limit
+	indexEnd := indexStart + limit
 	// 3. If the index start is out of range, return with empty results
 	if indexStart > (nStories - 1) {
 		res := PaginatedStoriesResponse{
 			Stories:      []Item{},
-			PageSize:     0,
+			Limit:        limit,
 			PageNumber:   pageNumber,
 			TotalResults: nStories,
 		}
 		return res, nil
 	}
 	// 4. If the page length is out of bounds for the story IDs slice, limit the index end
-	if nStories-(indexStart) < storiesPerPage {
+	if nStories-(indexStart) < limit {
 		indexEnd = indexStart + (nStories - indexStart)
 	}
 	// 5. Hydrate story Items for the final repsonse and return
@@ -59,7 +66,7 @@ func GetPaginatedStories(storyType StoryType, storiesPerPage int, pageNumber int
 	}
 	res := PaginatedStoriesResponse{
 		Stories:      hydratedStories,
-		PageSize:     len(hydratedStories),
+		Limit:        limit,
 		PageNumber:   pageNumber,
 		TotalResults: nStories,
 	}
@@ -67,11 +74,11 @@ func GetPaginatedStories(storyType StoryType, storiesPerPage int, pageNumber int
 }
 
 // HydrateItems concurrently hydrates a slice of item ids into
-// Item structs. Requests that ask for multiple items such as 
-// GetStories() or GetUpdates() are returned only a slice of 
-// item ids. With this slice we need to pass each item id into 
+// Item structs. Requests that ask for multiple items such as
+// GetStories() or GetUpdates() are returned only a slice of
+// item ids. With this slice we need to pass each item id into
 // GetItem() in order to get the full details. This HydrateItems
-// function will fetch each ID in the slice of item ids concurrently 
+// function will fetch each ID in the slice of item ids concurrently
 // to greatly improve execution time.
 func HydrateItems(itemIDs []int) ([]Item, error) {
 	var g errgroup.Group

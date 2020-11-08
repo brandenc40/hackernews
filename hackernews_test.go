@@ -182,9 +182,9 @@ func TestGetStories(t *testing.T) {
 
 func TestGetPaginatedStories(t *testing.T) {
 	type args struct {
-		storyType      StoryType
-		storiesPerPage int
-		pageNumber     int
+		storyType  StoryType
+		limit      int
+		pageNumber int
 	}
 	tests := []struct {
 		name    string
@@ -196,19 +196,67 @@ func TestGetPaginatedStories(t *testing.T) {
 			args:    args{StoriesBest, 10, 1},
 			wantErr: false,
 		},
+		{
+			name:    "Out of bounds no error",
+			args:    args{StoriesBest, 50, 1000},
+			wantErr: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := GetPaginatedStories(tt.args.storyType, tt.args.storiesPerPage, tt.args.pageNumber)
+			got, err := GetPaginatedStories(tt.args.storyType, tt.args.limit, tt.args.pageNumber)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("GetPaginatedStories() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if tt.args.storiesPerPage != got.PageSize {
+			if tt.args.limit != got.Limit {
 				t.Error("GetPaginatedStories() returned an invalid length of pages")
 			}
 			if tt.args.pageNumber != got.PageNumber {
 				t.Error("GetPaginatedStories() returned an invalid length of pages")
+			}
+		})
+	}
+}
+
+func TestPaginatedStoriesResponse_HasNextpage(t *testing.T) {
+	type fields struct {
+		Stories      []Item
+		Limit        int
+		PageNumber   int
+		TotalResults int
+	}
+	tests := []struct {
+		name   string
+		fields fields
+		want   bool
+	}{
+		{
+			name:   "Check for True",
+			fields: fields{[]Item{}, 2, 3, 10},
+			want:   true,
+		},
+		{
+			name:   "Check for False",
+			fields: fields{[]Item{}, 2, 5, 10},
+			want:   false,
+		},
+		{
+			name:   "Check for False with too large page num",
+			fields: fields{[]Item{}, 2, 7, 10},
+			want:   false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			p := &PaginatedStoriesResponse{
+				Stories:      tt.fields.Stories,
+				Limit:        tt.fields.Limit,
+				PageNumber:   tt.fields.PageNumber,
+				TotalResults: tt.fields.TotalResults,
+			}
+			if got := p.HasNextpage(); got != tt.want {
+				t.Errorf("PaginatedStoriesResponse.HasNextpage() = %v, want %v", got, tt.want)
 			}
 		})
 	}
