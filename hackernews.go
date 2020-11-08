@@ -26,7 +26,8 @@ type PaginatedStoriesResponse struct {
 	TotalResults int
 }
 
-// GetPaginatedStories returns paginated responses of fully hydrated story Items
+// GetPaginatedStories returns paginated responses of fully hydrated story Items. If the page requested is larger than
+// the available data, the results will contain an empty slice of story Items.
 func GetPaginatedStories(storyType StoryType, storiesPerPage int, pageNumber int) (PaginatedStoriesResponse, error) {
 	// 1. Get a slice of all story IDs
 	stories, err := GetStories(storyType)
