@@ -66,12 +66,13 @@ func GetPaginatedStories(storyType StoryType, storiesPerPage int, pageNumber int
 	return res, nil
 }
 
-// HydrateItems concurrently hydrates a list of item ids into
-// Item structs. GetStores and children of items are returned as
-// purely a list of item ids. With this list we need to pass each item
-// id into GetItem in order to get the full details. This HydrateItems
-// method will fetch that list of item ids concurrently to greatly
-// improve execution time.
+// HydrateItems concurrently hydrates a slice of item ids into
+// Item structs. Requests that ask for multiple items such as 
+// GetStories() or GetUpdates() are returned only a slice of 
+// item ids. With this slice we need to pass each item id into 
+// GetItem() in order to get the full details. This HydrateItems
+// function will fetch each ID in the slice of item ids concurrently 
+// to greatly improve execution time.
 func HydrateItems(itemIDs []int) ([]Item, error) {
 	var g errgroup.Group
 
@@ -93,7 +94,7 @@ func HydrateItems(itemIDs []int) ([]Item, error) {
 	return items, nil
 }
 
-// GetStories - Get a list of all story ids of the type passed through
+// GetStories - Get a slice of all story ids of the type passed through
 // the storyType argument.
 //
 // StoryType can be one of the following:
