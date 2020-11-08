@@ -179,3 +179,37 @@ func TestGetStories(t *testing.T) {
 		})
 	}
 }
+
+func TestGetPaginatedStories(t *testing.T) {
+	type args struct {
+		storyType      StoryType
+		storiesPerPage int
+		pageNumber     int
+	}
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			name:    "Request works properly",
+			args:    args{StoriesBest, 10, 1},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := GetPaginatedStories(tt.args.storyType, tt.args.storiesPerPage, tt.args.pageNumber)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("GetPaginatedStories() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if tt.args.storiesPerPage != got.PageSize {
+				t.Error("GetPaginatedStories() returned an invalid length of pages")
+			}
+			if tt.args.pageNumber != got.PageNumber {
+				t.Error("GetPaginatedStories() returned an invalid length of pages")
+			}
+		})
+	}
+}
