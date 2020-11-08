@@ -39,12 +39,12 @@ func GetPaginatedStories(storyType StoryType, storiesPerPage int, pageNumber int
 	indexStart := (pageNumber - 1) * storiesPerPage
 	indexEnd := indexStart + storiesPerPage
 	// 3. If the index start is out of range, return with empty results
-	if indexStart > (len(stories) - 1) {
+	if indexStart > (nStories - 1) {
 		res := PaginatedStoriesResponse{
 			Stories:      []Item{},
 			PageSize:     0,
 			PageNumber:   pageNumber,
-			TotalResults: len(stories),
+			TotalResults: nStories,
 		}
 		return res, nil
 	}
@@ -61,7 +61,7 @@ func GetPaginatedStories(storyType StoryType, storiesPerPage int, pageNumber int
 		Stories:      hydratedStories,
 		PageSize:     len(hydratedStories),
 		PageNumber:   pageNumber,
-		TotalResults: len(stories),
+		TotalResults: nStories,
 	}
 	return res, nil
 }
