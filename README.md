@@ -9,7 +9,21 @@
 
 ### Easy to use client for the HackerNews API that leverages goroutines for highly efficient requests.
 
-##### Full API documentation can be found here: https://github.com/HackerNews/API
+##### Full HackerNews API documentation can be found here: https://github.com/HackerNews/API
+
+##### Available Functions
+
+```go
+GetPaginatedStories(storyType StoryType, storiesPerPage int, pageNumber int) (PaginatedStoriesResponse, error)
+GetStories(storyType StoryType) (Stories, error)
+GetItem(itemID int) (Item, error)
+GetUser(userID string) (User, error)
+GetMaxItem() (MaxItem, error)
+GetUpates() (Updates, error)
+HydrateItems(itemIDs []int) ([]Item, error)
+```
+
+##### Example
 
 ```go
 import "github.com/brandenc40/hackernews"
