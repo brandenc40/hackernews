@@ -11,6 +11,8 @@
 
 ##### Full HackerNews API documentation can be found here: https://github.com/HackerNews/API
 
+See an example of usage in this [CLI](https://github.com/brandenc40/hackernews-cli)
+
 ##### Available Functions
 
 ```go
